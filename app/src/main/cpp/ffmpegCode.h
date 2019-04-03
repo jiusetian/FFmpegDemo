@@ -8,8 +8,9 @@
 extern "C" {
 #endif
 
-
-extern JNIEXPORT jstring JNICALL avcodemsg(JNIEnv *,jobject);
+//编码信息
+extern JNIEXPORT jstring JNICALL avcode_info(JNIEnv *,jobject);
+//
 
 JNIEXPORT jint JNICALL decode();
 

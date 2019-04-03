@@ -9,7 +9,7 @@
 //缩放
 #include "libswscale/swscale.h"
 
-JNIEXPORT jstring JNICALL avcodemsg(JNIEnv *env, jobject ob) {
+JNIEXPORT jstring JNICALL avcode_info(JNIEnv *env, jobject ob) {
 
     char info[40000] = {0};
     //新版本已经不需要这个方法了

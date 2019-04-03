@@ -25,10 +25,10 @@ find_library(
         log-lib
         log)
 
-target_link_libraries(
-        av-lib
-        ${log-lib}
-)
+#target_link_libraries(
+#        av-lib
+#        ${log-lib}
+#)
 
 #下面是加载ffmpeg的库和头文件
 

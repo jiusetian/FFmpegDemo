@@ -2,10 +2,6 @@
 #include <android/log.h>
 #include "ffmpegCode.h"
 
-//#include <libavcodec/avcodec.h>
-//#include <libavformat/avformat.h>
-//#include <libavfilter/avfilter.h>
-//#include <libavutil/imgutils.h>
 //封装格式
 #include "libavformat/avformat.h"
 //解码
@@ -16,7 +12,8 @@
 JNIEXPORT jstring JNICALL avcodeinfo(JNIEnv *env, jobject ob) {
 
     char info[40000] = {0};
-    av_register_all();
+    //新版本已经不需要这个方法了
+    //av_register_all();
 
     AVCodec *c_temp = av_codec_next(NULL);
 
@@ -29,6 +26,7 @@ JNIEXPORT jstring JNICALL avcodeinfo(JNIEnv *env, jobject ob) {
 
         switch (c_temp->type) {
             case AVMEDIA_TYPE_VIDEO:
+                //格式化输出到 str 所指向的字符串
                 sprintf(info, "%s(video):", info);
                 break;
             case AVMEDIA_TYPE_AUDIO:

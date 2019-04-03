@@ -1,6 +1,7 @@
 
 cmake_minimum_required(VERSION 3.4.1)
 
+#集成ffmpeg的时候，不能同时有两个add_library
 #add_library(
 #        native-lib
 #        SHARED

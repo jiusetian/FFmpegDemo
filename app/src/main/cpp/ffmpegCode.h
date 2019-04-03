@@ -1,6 +1,3 @@
-//
-// Created by Administrator on 2019/4/2.
-//
 
 #ifndef FFMPEGDEMO_FFMPEGCODE_H
 #define FFMPEGDEMO_FFMPEGCODE_H
@@ -11,11 +8,14 @@
 extern "C" {
 #endif
 
-//在这里定义头文件方法
-JNIEXPORT jstring JNICALL avcodeinfo(JNIEnv *,jobject);
+
+extern JNIEXPORT jstring JNICALL avcodemsg(JNIEnv *,jobject);
+
+JNIEXPORT jint JNICALL decode();
 
 #ifdef __cplusplus
 };
 #endif
 
 #endif //FFMPEGDEMO_FFMPEGCODE_H
+

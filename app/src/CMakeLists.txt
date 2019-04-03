@@ -5,17 +5,30 @@ cmake_minimum_required(VERSION 3.4.1)
 #add_library(
 #        native-lib
 #        SHARED
-#        main/cpp/native-lib.cpp)
+#        main/cpp/native-lib.cpp
+#)
+#add_library(
+#        avcode-info
+#        SHARED
+#        main/cpp/avcode_info.c
+#)
 
 add_library(
         av-lib
         SHARED
         main/cpp/av-lib.c
+        main/cpp/avcode_info.c
 )
+
 
 find_library(
         log-lib
         log)
+
+target_link_libraries(
+        av-lib
+        ${log-lib}
+)
 
 #下面是加载ffmpeg的库和头文件
 
@@ -84,6 +97,8 @@ set_target_properties(avdevice
 
 #指定ffmpeg头文件的位置
 include_directories(main/ffmpeg/include)
+
+
 
 #链接so库
 target_link_libraries(

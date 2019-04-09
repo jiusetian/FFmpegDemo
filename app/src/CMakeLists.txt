@@ -18,6 +18,8 @@ add_library(
         SHARED
         main/cpp/av-lib.c
         main/cpp/avcode_info.c
+        main/cpp/jni_util.c
+        main/cpp/decoder.c
 )
 
 

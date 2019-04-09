@@ -1,8 +1,9 @@
 package com.ffmpegdemo;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -12,14 +13,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Example of a call to a native method
-        TextView tv = findViewById(R.id.sample_text);
-        tv.setText(""+AvUtil.avcodeInfo());
+        findViewById(R.id.bt_code).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startAct(DecoderActivity.class);
+            }
+        });
     }
 
-    /**
-     * A native method that is implemented by the 'native-lib' native library,
-     * which is packaged with this application.
-     */
-    //public native String stringFromJNI();
+
+    private void startAct(Class startClass) {
+
+        startActivity(new Intent(MainActivity.this, startClass));
+    }
 }

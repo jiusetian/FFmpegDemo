@@ -9,10 +9,11 @@ extern "C" {
 #endif
 
 //编码信息
-extern JNIEXPORT jstring JNICALL avcode_info(JNIEnv *,jobject);
-//
-
-JNIEXPORT jint JNICALL decode();
+JNIEXPORT jstring JNICALL avcode_info(JNIEnv *, jobject);
+//动态注册方法
+JNIEXPORT jint JNICALL jni_register(JavaVM *vm, void *reserved, JNINativeMethod *, char *);
+//视频解码
+JNIEXPORT void JNICALL decode(JNIEnv *, jobject , jstring, jstring);
 
 #ifdef __cplusplus
 };

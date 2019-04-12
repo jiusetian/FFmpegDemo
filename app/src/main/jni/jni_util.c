@@ -1,6 +1,6 @@
 #include <jni.h>
 #include <android/log.h>
-#include "ffmpegCode.h"
+#include "ffmpeg_code.h"
 
 
 //动态注册方法

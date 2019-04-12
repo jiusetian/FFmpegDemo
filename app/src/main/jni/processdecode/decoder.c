@@ -3,7 +3,7 @@
  */
 #include <jni.h>
 #include <android/log.h>
-#include "ffmpegCode.h"
+#include "../ffmpeg_code.h"
 //解码
 #include "libavcodec/avcodec.h"
 //封装格式

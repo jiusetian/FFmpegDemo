@@ -16,11 +16,11 @@ cmake_minimum_required(VERSION 3.4.1)
 add_library(
         av-lib
         SHARED
-        main/cpp/av-lib.c
-        main/cpp/avcode_info.c
-        main/cpp/jni_util.c
-        main/cpp/decoder.c
-        main/cpp/decode_lbs.c
+        main/jni/main-lib.c
+        main/jni/processdecode/avcode_info.c
+        main/jni/jni_util.c
+        main/jni/processdecode/decoder.c
+        main/jni/processdecode/decode_lbs.c
 )
 
 
@@ -105,7 +105,9 @@ include_directories(main/ffmpeg/include)
 
 #链接so库
 target_link_libraries(
+        #对外开放的接口
         av-lib
+        #第三方库
         avutil
         swresample
         swscale

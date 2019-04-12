@@ -20,6 +20,7 @@ add_library(
         main/cpp/avcode_info.c
         main/cpp/jni_util.c
         main/cpp/decoder.c
+        main/cpp/decode_lbs.c
 )
 
 

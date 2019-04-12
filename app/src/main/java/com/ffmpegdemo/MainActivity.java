@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
+    //
     private void startAct(Class startClass) {
 
         startActivity(new Intent(MainActivity.this, startClass));

@@ -10,6 +10,8 @@
 #include "libavformat/avformat.h"
 //视频像素格式转换
 #include "libswscale/swscale.h"
+
+#include <libavutil/imgutils.h>
 //定义log的宏
 #define LOGI(FORMAT, ...) __android_log_print(ANDROID_LOG_INFO, "解码器", FORMAT, ##__VA_ARGS__)
 #define LOGE(FORMAT, ...) __android_log_print(ANDROID_LOG_ERROR, "解码器", FORMAT, ##__VA_ARGS__)
@@ -22,8 +24,8 @@
  * @param ouput_jstr
  */
 JNIEXPORT void JNICALL decode(JNIEnv *env, jobject ob, jstring input_jstr, jstring ouput_jstr) {
-    
-    //
+
+    //获取输入和输出文件的路径
     const char *input_str = (*env)->GetStringUTFChars(env, input_jstr, NULL);
     const char *ouput_str = (*env)->GetStringUTFChars(env, ouput_jstr, NULL);
 
@@ -34,9 +36,9 @@ JNIEXPORT void JNICALL decode(JNIEnv *env, jobject ob, jstring input_jstr, jstri
     AVFormatContext *pFormatCtx = avformat_alloc_context();
 
     // 打开输入视频文件，成功返回0，第三个参数为NULL，表示自动检测文件格式
-    int code=avformat_open_input(&pFormatCtx, input_str, NULL, NULL);
+    int code = avformat_open_input(&pFormatCtx, input_str, NULL, NULL);
     if (code != 0) {
-        LOGE("%s%d", "打开输入视频文件失败：",code);
+        LOGE("%s%d", "打开输入视频文件失败：", code);
         return;
     }
 
@@ -49,12 +51,18 @@ JNIEXPORT void JNICALL decode(JNIEnv *env, jobject ob, jstring input_jstr, jstri
     //查找视频流所在位置，遍历所有类型的流，找到视频流的所在位置
     int video_stream_index = -1;
     for (int i = 0; i < pFormatCtx->nb_streams; i++) {
+        //新api写法
+//        if (pFormatCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
+//            video_stream_index = i;
+//            break;
+//        }
         if (pFormatCtx->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO) {
             video_stream_index = i;
             break;
         }
     }
 
+    //AVCodecContext *pCodecCtx = pFormatCtx->streams[video_stream_index]->codecpar;
     //编解码上下文
     AVCodecContext *pCodecCtx = pFormatCtx->streams[video_stream_index]->codec;
     //查找解码器
@@ -70,12 +78,12 @@ JNIEXPORT void JNICALL decode(JNIEnv *env, jobject ob, jstring input_jstr, jstri
         return;
     }
 
-    //编码数据
+    //保存编码的数据包，分配内存
     AVPacket *pPacket = (AVPacket *) av_malloc(sizeof(AVPacket));
 
-    //像素格式（解码数据）
-    AVFrame *pFrame = av_frame_alloc();
-    AVFrame *pYuvFrame = av_frame_alloc();
+    //像素格式（解码数据），存储一帧解码后像素数据
+    AVFrame *pFrame = av_frame_alloc(); //用来存储解码得到的数据
+    AVFrame *pYuvFrame = av_frame_alloc(); //用来存储解码后目标格式的数据
     //解码后的保存路径
     FILE *fp_yuv = fopen(ouput_str, "wb");
 
@@ -83,7 +91,7 @@ JNIEXPORT void JNICALL decode(JNIEnv *env, jobject ob, jstring input_jstr, jstri
     //缓冲区分配内存
     uint8_t out_buffer = (uint8_t *) av_malloc(
             avpicture_get_size(AV_PIX_FMT_YUV420P, pCodecCtx->width, pCodecCtx->height));
-    //初始化缓存去
+    //初始化缓存区，将pYuvFrame结构内指针指向out_buffer的数据，到这里才真正指定了pYuvFrame的像素格式和画面大小
     avpicture_fill((AVPicture *) pYuvFrame, out_buffer, AV_PIX_FMT_YUV420P, pCodecCtx->width,
                    pCodecCtx->height);
 
@@ -101,21 +109,23 @@ JNIEXPORT void JNICALL decode(JNIEnv *env, jobject ob, jstring input_jstr, jstri
     );
 
     int got_frame, len, frameCount = 0;
-    //从输入文件中一帧一帧读取压缩的视频数据AVpacket
+    //从输入文件中一帧一帧读取压缩的视频数据AVpacket，
     while (av_read_frame(pFormatCtx, pPacket) >= 0) {
+        //如果读取的当前帧数据是我们想要的视频流
         if (pPacket->stream_index == video_stream_index) {
-            //解码一帧压缩数据，第三个参数为0时表示解码完成
+            //解码一帧压缩数据，第二个参数pFrame用来存储解码得到的数据，第三个参数为0时表示解码完成，第四个参数pPacket代表要解码的数据包
             len = avcodec_decode_video2(pCodecCtx, pFrame, &got_frame, pPacket);
             if (len < 0) {
                 LOGE("%s", "解码失败");
                 return;
             }
+            //将源pFrame数据转换为pYuvFrame数据
             sws_scale(
                     pSwsCtx,
                     pFrame->data, pFrame->linesize, 0, pFrame->height,
                     pYuvFrame->data, pYuvFrame->linesize
             );
-            //非0表示正在解码
+            //非0表示正在解码，0表示解码结束
             if (got_frame) {
                 //图像宽高的乘积就是视频的总像素，而一个像素包含一个y，u对应1/4个y，v对应1/4个y
                 int yuv_size = pCodecCtx->width * pCodecCtx->height;

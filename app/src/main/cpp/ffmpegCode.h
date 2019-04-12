@@ -14,6 +14,8 @@ JNIEXPORT jstring JNICALL avcode_info(JNIEnv *, jobject);
 JNIEXPORT jint JNICALL jni_register(JavaVM *vm, void *reserved, JNINativeMethod *, char *);
 //视频解码
 JNIEXPORT void JNICALL decode(JNIEnv *, jobject , jstring, jstring);
+//雷博士的视频解码
+JNIEXPORT jint JNICALL decode_lbs(JNIEnv *, jobject , jstring, jstring);
 
 #ifdef __cplusplus
 };

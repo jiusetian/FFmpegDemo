@@ -15,8 +15,9 @@ JNIEXPORT jstring JNICALL avcodeInfo(JNIEnv *env, jobject ob) {
     return avcode_info(env, ob);
 }
 
-JNIEXPORT void JNICALL decoder_jni(JNIEnv *env,jobject ob,jstring inStr,jstring outStr){
-    decode(env,ob,inStr,outStr);
+JNIEXPORT int JNICALL decoder_jni(JNIEnv *env,jobject ob,jstring inStr,jstring outStr){
+    //decode(env,ob,inStr,outStr);
+    return decode_lbs(env,ob,inStr,outStr);
 }
 
 
@@ -24,7 +25,7 @@ JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *reserved) {
     //要注册的方法集合，这里利用了映射形式
     const JNINativeMethod method[] = {
             {"avcodeInfo", "()Ljava/lang/String;", (void *) avcodeInfo},
-            {"decoder","(Ljava/lang/String;Ljava/lang/String;)V",(void *)decoder_jni}
+            {"decoder","(Ljava/lang/String;Ljava/lang/String;)I",(void *)decoder_jni}
     };
     //java层对应的类路径名
     char *str = "com/ffmpegdemo/AvUtil";

@@ -38,7 +38,7 @@ public class DecoderActivity extends AppCompatActivity {
             public void onClick(View arg0) {
 
                 String folderurl = Environment.getExternalStorageDirectory().getPath() + "/DCIM/Camera";
-
+                Log.d("tag", "onClick: 路径="+folderurl);
                 String urltext_input = urlEdittext_input.getText().toString();
                 final String inputurl = folderurl + "/" + urltext_input;
 

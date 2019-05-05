@@ -20,7 +20,7 @@ add_library(
         main/jni/processdecode/avcode_info.c
         main/jni/jni_util.c
         main/jni/processdecode/decoder.c
-        main/jni/processdecode/decode_lbs.c
+        main/jni/processdecode/decode_l.c
 )
 
 
@@ -58,6 +58,7 @@ add_library(swresample
 set_target_properties(swresample
         PROPERTIES IMPORTED_LOCATION
         ${JNI_LIBS_DIR}/libswresample-3.so )
+
 #视频像素格式转换
 add_library(swscale
         SHARED
@@ -66,6 +67,7 @@ add_library(swscale
 set_target_properties(swscale
         PROPERTIES IMPORTED_LOCATION
         ${JNI_LIBS_DIR}/libswscale-5.so )
+
 #编解码（最重要的库）
 add_library(avcodec
         SHARED
@@ -74,6 +76,7 @@ add_library(avcodec
 set_target_properties(avcodec
         PROPERTIES IMPORTED_LOCATION
         ${JNI_LIBS_DIR}/libavcodec-58.so )
+
 #封装格式处理
 add_library(avformat
         SHARED
@@ -82,6 +85,7 @@ add_library(avformat
 set_target_properties(avformat
         PROPERTIES IMPORTED_LOCATION
         ${JNI_LIBS_DIR}/libavformat-58.so )
+
 #滤镜特效处理
 add_library(avfilter
         SHARED
@@ -90,6 +94,7 @@ add_library(avfilter
 set_target_properties(avfilter
         PROPERTIES IMPORTED_LOCATION
         ${JNI_LIBS_DIR}/libavfilter-7.so )
+
 #各种设备的输入输出
 add_library(avdevice
         SHARED

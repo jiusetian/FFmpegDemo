@@ -17,10 +17,16 @@ add_library(
         av-lib
         SHARED
         main/jni/main-lib.c
-        main/jni/processdecode/avcode_info.c
         main/jni/jni_util.c
+        main/jni/processdecode/avcode_info.c
         main/jni/processdecode/decoder.c
         main/jni/processdecode/decode_l.c
+        main/jni/processdecode/aac_parser.c
+        main/jni/processdecode/flv_parser.c
+        main/jni/processdecode/h264_parser.c
+        main/jni/processdecode/pcm_voice.c
+        main/jni/processdecode/rgb_yuv.c
+        main/jni/processdecode/udp_rtp.c
 )
 
 

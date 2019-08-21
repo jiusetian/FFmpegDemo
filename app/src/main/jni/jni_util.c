@@ -1,7 +1,7 @@
 #include <jni.h>
 #include <android/log.h>
+#include <stddef.h>
 #include "ffmpeg_code.h"
-
 
 //动态注册方法
 JNIEXPORT jint JNICALL jni_register(JavaVM *vm, void *reserved,JNINativeMethod *method, char *str)
@@ -23,6 +23,7 @@ JNIEXPORT jint JNICALL jni_register(JavaVM *vm, void *reserved,JNINativeMethod *
         __android_log_print(ANDROID_LOG_DEBUG, "JNITag", "jni_register Error");
         return -1;
     }
+
     __android_log_print(ANDROID_LOG_DEBUG, "JNITag", "注册成功");
     return JNI_VERSION_1_6;
 }

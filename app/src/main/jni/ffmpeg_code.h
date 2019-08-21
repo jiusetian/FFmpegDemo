@@ -1,9 +1,7 @@
 
 #ifndef FFMPEGDEMO_FFMPEGCODE_H
 #define FFMPEGDEMO_FFMPEGCODE_H
-
 #include <jni.h>
-
 #ifdef __cplusplus
 extern "C" {
 #endif

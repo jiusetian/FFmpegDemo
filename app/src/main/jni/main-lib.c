@@ -4,6 +4,7 @@
 #include <jni.h>
 #include <android/log.h>
 #include "ffmpeg_code.h"
+
 //封装格式
 #include "libavformat/avformat.h"
 //解码

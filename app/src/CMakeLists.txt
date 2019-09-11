@@ -17,15 +17,17 @@ add_library(
         SHARED
         main/jni/main-lib.c
         main/jni/jni_util.c
-        main/jni/processdecode/avcode_info.c
-        main/jni/processdecode/decoder.c
-        main/jni/processdecode/decode_l.c
-        main/jni/processdecode/aac_parser.c
-        main/jni/processdecode/flv_parser.c
-        main/jni/processdecode/h264_parser.c
-        main/jni/processdecode/pcm_voice.c
-        main/jni/processdecode/rgb_yuv.c
-        main/jni/processdecode/udp_rtp.c
+        main/jni/processDecode/avcode_info.c
+        main/jni/processDecode/decoder.c
+        main/jni/processDecode/decode_l.c
+        main/jni/avEntry/aac.c
+        main/jni/avEntry/flv.c
+        main/jni/avEntry/h264.c
+        main/jni/avEntry/pcm.c
+        main/jni/avEntry/yuv_rgb.c
+        main/jni/processDecode/udp_rtp.c
+        main/jni/Codec/yuv_2_h264.c
+        main/jni/Codec/pcm_2_aac.c
 )
 
 
